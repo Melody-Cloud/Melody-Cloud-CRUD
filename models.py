@@ -31,7 +31,7 @@ class Song(BaseModel):
     musicSrcUrl = CharField()
     waveformImgUrl = CharField()
     amountOfPlays = IntegerField()
-    amountOfLike = IntegerField()
+    amountOfLikes = IntegerField()
     description = TextField()
     createdDate = DateTimeField(default=datetime.datetime.now)
 
@@ -39,7 +39,9 @@ class Song(BaseModel):
 class Tag(BaseModel):
     songId = ForeignKeyField(Song, backref='tags')
     songTag = CharField()
-    createdDate = DateTimeField(default=datetime.datetime.now)
+
+    class Meta:
+        primary_key = False
 
 
 class Comment(BaseModel):
@@ -54,3 +56,4 @@ class Playlist(BaseModel):
 
 
 pgdb.create_tables([Song, Tag, Comment, Artist, Album, Playlist])
+# pgdb.create_tables([Tag])
