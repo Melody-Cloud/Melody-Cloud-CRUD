@@ -15,6 +15,7 @@ class Artist(BaseModel):
     name = CharField()
     artistDescription = TextField()
     createdDate = DateTimeField(default=datetime.datetime.now)
+    artistImageUrl = CharField()
 
 
 class Album(BaseModel):
@@ -28,11 +29,12 @@ class Song(BaseModel):
     artistId = ForeignKeyField(Artist, backref='songs')
     albumId = ForeignKeyField(Album, backref='tags')
     name = CharField()
-    musicSrcUrl = CharField()
+    musicSrc = CharField()
     waveformImgUrl = CharField()
     amountOfPlays = IntegerField()
     amountOfLikes = IntegerField()
     description = TextField()
+    lyrics = TextField()
     createdDate = DateTimeField(default=datetime.datetime.now)
 
 
