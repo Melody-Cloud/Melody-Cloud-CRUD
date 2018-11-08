@@ -20,7 +20,7 @@ crybaby_song = Song(artistId=peep, albumId=crybaby, name='Crybaby', musicSrcUrl=
 crybaby_song.save()
 # Tags
 rap_tag = Tag(songId=crybaby_song, songTag='Rap')
-crybaby_tag = Tag(songId=crybaby_song, songTag='Crybaby')
+crybaby_tag = Tag(songId=crybaby_song, songTag='Crybaby2016')
 
 rap_tag.save()
 crybaby_tag.save()
