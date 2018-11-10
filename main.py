@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, jsonify
 from flask_peewee.rest import RestAPI
 from flask_cors import CORS
 import psycopg2
@@ -28,6 +28,13 @@ def index():
 @rest_app.route('/api/hello')
 def indexx():
     return "Hello, world!", 200
+
+
+@rest_app.route('/api/playlists')
+def playlists():
+    distinct_list = Playlist.select(Playlist.playlistName).distinct().execute()
+
+    return jsonify({"objects": [playlist.playlistName for playlist in distinct_list]})
 
 
 cors = CORS(rest_app)

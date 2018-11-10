@@ -49,12 +49,16 @@ class Tag(BaseModel):
 class Comment(BaseModel):
     songId = ForeignKeyField(Song, backref='comments')
     commentContent = TextField()
+    commentAuthorName = CharField()
     createdDate = DateTimeField(default=datetime.datetime.now)
 
 
 class Playlist(BaseModel):
     playlistName = CharField()
     songId = ForeignKeyField(Song, backref='songs')
+
+    class Meta:
+        primary_key = False
 
 
 pgdb.create_tables([Song, Tag, Comment, Artist, Album, Playlist])

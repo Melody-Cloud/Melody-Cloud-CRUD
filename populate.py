@@ -1,6 +1,8 @@
 import random
-from models import Artist, Album, Song, Tag
+from models import Artist, Album, Song, Tag, Comment, Playlist
 import lorem
+from faker import Faker
+fake = Faker()
 
 # Artists
 # https://data.whicdn.com/images/310209005/large.jpg
@@ -19,17 +21,22 @@ tha_kid.save()
 crybaby = Album(artistId=peep, albumName='Crybaby', albumDescription='Crybaby is a mixtape by LiL PEEP, released at the 10th of June, 2016. It features GOTHBOICLIQUE members WICCA PHASE SPRINGS ETERNAL, Cold Hart, and Lil Tracy.')
 crybaby.save()
 # Songs
+songs = []
 crybaby_song = Song(artistId=peep, albumId=crybaby, name='Crybaby', musicSrc='https://s3-eu-west-1.amazonaws.com/melody-cloud-songs/Crybaby.mp3', waveformImgUrl='https://s3-eu-west-1.amazonaws.com/melody-cloud-waveforms/Crybaby.mp3.png', amountOfPlays=random.randint(10000, 100000), amountOfLikes=random.randint(1000, 10000), description='First song in the album', lyrics=lorem.text())
-crybaby_song.save()
+songs.append(crybaby_song)
 
 liljeep_song = Song(artistId=peep, albumId=crybaby, name='Lil Jeep', musicSrc='https://s3-eu-west-1.amazonaws.com/melody-cloud-songs/LilJeep.mp3', waveformImgUrl='https://s3-eu-west-1.amazonaws.com/melody-cloud-waveforms/LilJeep.mp3.png', amountOfPlays=random.randint(10000, 100000), amountOfLikes=random.randint(1000, 10000), description='Second song in the album', lyrics=lorem.text())
-liljeep_song.save()
+songs.append(liljeep_song)
 
 yesterday_song = Song(artistId=peep, albumId=crybaby, name='Yesterday', musicSrc='https://s3-eu-west-1.amazonaws.com/melody-cloud-songs/Yesterday.mp3', waveformImgUrl='https://s3-eu-west-1.amazonaws.com/melody-cloud-waveforms/Yesterday.mp3.png', amountOfPlays=random.randint(10000, 100000), amountOfLikes=random.randint(1000, 10000), description='Third song in the album', lyrics=lorem.text())
-yesterday_song.save()
+songs.append(yesterday_song)
 
-aid_song = Song(artistId=peep, albumId=crybaby, name='Absolute', musicSrc='https://s3-eu-west-1.amazonaws.com/melody-cloud-songs/AbsoluteInDoubt.mp3', waveformImgUrl='https://s3-eu-west-1.amazonaws.com/melody-cloud-waveforms/AbsoluteInDoubt.mp3.png', amountOfPlays=random.randint(10000, 100000), amountOfLikes=random.randint(1000, 10000), description='Fourth song in the album', lyrics=lorem.text())
-aid_song.save()
+aid_song = Song(artistId=peep, albumId=crybaby, name='Absolute In Doubt', musicSrc='https://s3-eu-west-1.amazonaws.com/melody-cloud-songs/AbsoluteInDoubt.mp3', waveformImgUrl='https://s3-eu-west-1.amazonaws.com/melody-cloud-waveforms/AbsoluteInDoubt.mp3.png', amountOfPlays=random.randint(10000, 100000), amountOfLikes=random.randint(1000, 10000), description='Fourth song in the album', lyrics=lorem.text())
+songs.append(aid_song)
+
+for song in songs:
+    song.save()
+
 # Tags
 rap_tag = Tag(songId=crybaby_song, songTag='Rap')
 sad_tag = Tag(songId=crybaby_song, songTag='Sad')
@@ -51,3 +58,22 @@ rap_tag.save()
 
 sad_tag = Tag(songId=aid_song, songTag='Sad')
 sad_tag.save()
+
+# Comments
+users_avatars = [
+    'https://react.semantic-ui.com/images/avatar/small/matt.jpg',
+    'https://react.semantic-ui.com/images/avatar/small/elliot.jpg',
+    'https://react.semantic-ui.com/images/avatar/small/jenny.jpg',
+    'https://react.semantic-ui.com/images/avatar/small/joe.jpg'
+]
+
+
+for song in songs:
+    for i in range(0, random.randint(2, 5)):
+        random_comment = Comment(songId=song, commentContent=lorem.paragraph(), commentAuthorName=fake.name())
+        random_comment.save()
+
+
+for song in songs:
+    generic_playlist_entry = Playlist(playlistName="My simple playlist", songId=song)
+    generic_playlist_entry.save()
