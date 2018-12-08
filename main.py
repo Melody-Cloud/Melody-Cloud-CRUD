@@ -1,14 +1,26 @@
 from flask import Flask, jsonify
-from flask_peewee.rest import RestAPI
 from flask_cors import CORS
+
+from flask_peewee.rest import RestAPI, RestResource, UserAuthentication
 import psycopg2
 
 from models import Song, Artist, Comment, Album, Playlist, Tag
 
+
+class NoAuth:
+    def authenticate(self, user, passwd):
+        return True
+
+    def authorize(self):
+        return True
+
+
+user_auth = NoAuth()
+
 models_to_register = [Song, Tag, Comment, Artist, Album, Playlist]
 
 app = Flask(__name__)
-api = RestAPI(app)
+api = RestAPI(app, default_auth=user_auth)
 
 # register our models so they are exposed via /api/<model>/
 for model_to_register in models_to_register:
@@ -30,7 +42,7 @@ def indexx():
     return "Hello, world!", 200
 
 
-@rest_app.route('/api/playlists')
+@rest_app.route('/api/playlists/')
 def playlists():
     distinct_list = Playlist.select(Playlist.playlistName).distinct().execute()
 
