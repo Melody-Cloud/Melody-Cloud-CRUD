@@ -1,7 +1,7 @@
 from main import rest_app
 
 
-def test_albums():
+def test_getting_albums():
     with rest_app.test_client() as c:
         rv = c.get('/api/album/')
         json_data = rv.get_json()
@@ -9,7 +9,7 @@ def test_albums():
         assert "objects" in json_data
 
 
-def test_artist():
+def test_getting_artist():
     with rest_app.test_client() as c:
         rv = c.get('/api/artist/')
         json_data = rv.get_json()
@@ -17,7 +17,7 @@ def test_artist():
         assert "objects" in json_data
 
 
-def test_comment():
+def test_getting_comment():
     with rest_app.test_client() as c:
         rv = c.get('/api/comment/')
         json_data = rv.get_json()
@@ -25,14 +25,14 @@ def test_comment():
         assert "objects" in json_data
 
 
-def test_playlists():
+def test_getting_playlists():
     with rest_app.test_client() as c:
         rv = c.get('/api/playlists/')
         json_data = rv.get_json()
         assert "objects" in json_data
 
 
-def test_song():
+def test_getting_song():
     with rest_app.test_client() as c:
         rv = c.get('/api/song/')
         json_data = rv.get_json()
@@ -40,7 +40,7 @@ def test_song():
         assert "objects" in json_data
 
 
-def test_tag():
+def test_getting_tag():
     with rest_app.test_client() as c:
         rv = c.get('/api/tag/')
         json_data = rv.get_json()
@@ -50,7 +50,7 @@ def test_tag():
 
 # --- TEST POST METHOD ---
 
-def test_post_artist():
+def test_adding_artist():
     with rest_app.test_client() as c:
         artist_to_add = {
           "name": "Test artist",
@@ -73,7 +73,7 @@ def test_post_artist():
         assert has_artist_been_added
 
 
-def test_post_album():
+def test_adding_album():
     with rest_app.test_client() as c:
         album_to_add = {
           "artistId": 1,
@@ -92,10 +92,60 @@ def test_post_album():
                  for key in album_to_add.keys()) for single_album_from_api in albums_from_api]
         )
 
-        assert album_to_add in albums_from_api
+        assert has_album_been_added
 
 
-def test_post_tag():
+def test_adding_song():
+    with rest_app.test_client() as c:
+        song_to_add = {
+          "artistId": 1,
+          "albumId": 1,
+          "name": "Test Song",
+          "musicSrc": "https://s3-eu-west-1.amazonaws.com/melody-cloud-songs/Crybaby.mp3",
+          "waveformImgUrl": "https://s3-eu-west-1.amazonaws.com/melody-cloud-waveforms/Crybaby.mp3.png",
+          "amountOfPlays": 1,
+          "amountOfLikes": 1,
+          "description": "Test description",
+          "lyrics": "Test lyrics",
+          "createdDate": "2018-12-05 18:02:10"
+        }
+
+        rv = c.post('/api/song/', json=song_to_add)
+        assert rv.status_code == 200
+
+        songs_from_api = c.get('/api/song/').get_json()["objects"]
+
+        has_song_been_added = any(
+            [all(single_song_from_api[key] == song_to_add[key]
+                 for key in song_to_add.keys()) for single_song_from_api in songs_from_api]
+        )
+
+        assert has_song_been_added
+
+
+def test_adding_comment():
+    with rest_app.test_client() as c:
+        comment_to_add = {
+          "songId": 1,
+          "commentContent": "Test comment",
+          "commentAuthorName": "Test comment author",
+          "createdDate": "2018-12-05 18:02:12"
+        }
+
+        rv = c.post('/api/comment/', json=comment_to_add)
+        assert rv.status_code == 200
+
+        comments_from_api = c.get('/api/comment/').get_json()["objects"]
+
+        has_comment_been_added = any(
+            [all(single_comment_from_api[key] == comment_to_add[key]
+                 for key in comment_to_add.keys()) for single_comment_from_api in comments_from_api]
+        )
+
+        assert has_comment_been_added
+
+
+def test_adding_tag():
     with rest_app.test_client() as c:
         tag_to_add = {
             "songId": 4,
@@ -109,4 +159,15 @@ def test_post_tag():
         assert tag_to_add in tags_from_api
 
 
-test_post_album()
+def test_adding_playlist():
+    with rest_app.test_client() as c:
+        playlist_to_add = {
+          "playlistName": "Test playlist",
+          "songId": 1
+        }
+
+        rv = c.post('/api/playlist/', json=playlist_to_add)
+        assert rv.status_code == 200
+
+        playlists_from_api = c.get('/api/playlist/').get_json()["objects"]
+        assert playlist_to_add in playlists_from_api
