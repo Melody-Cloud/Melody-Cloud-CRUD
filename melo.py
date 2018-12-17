@@ -1,9 +1,14 @@
 from flask import Flask, jsonify
 from flask_cors import CORS
 
-from flask_peewee.rest import RestAPI, RestResource, UserAuthentication
+from flask_peewee.rest import RestAPI
 import psycopg2
 
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
+from playhouse.shortcuts import model_to_dict
+
+from helpers import song_join_to_json
 from models import Song, Artist, Comment, Album, Playlist, Tag
 
 
@@ -32,7 +37,15 @@ api.setup()
 rest_app = api.app
 
 
+limiter = Limiter(
+    rest_app,
+    key_func=get_remote_address,
+    default_limits=["50 per second"]
+)
+
+
 @rest_app.route('/')
+@limiter.limit("50/second")
 def index():
     return "Hello, world!", 200
 
@@ -47,6 +60,16 @@ def playlists():
     distinct_list = Playlist.select(Playlist.playlistName).distinct().execute()
 
     return jsonify({"objects": [playlist.playlistName for playlist in distinct_list]})
+
+
+@rest_app.route('/api/songs-feed/')
+def songs():
+    query = Song.select()
+
+    query_results = list(query)
+    results = [song_join_to_json(result) for result in query_results]
+
+    return jsonify({"objects": results})
 
 
 cors = CORS(rest_app)

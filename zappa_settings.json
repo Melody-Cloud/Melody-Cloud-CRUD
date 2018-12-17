@@ -1,16 +1,13 @@
-
-
-  {
-      "dev": {
-          "app_function": "main.rest_app",
-          "aws_region": "eu-west-1",
-          "profile_name": "default",
-          "project_name": "melodycloudback",
-          "runtime": "python3.6",
-          "s3_bucket": "zappa-h3qoiie4l",
-          "cors": true,
-          "enable_cors": true,
-          "binary_support": false
-      }
+{
+  "dev": {
+      "app_function": "melo.rest_app",
+      "aws_region": "eu-west-1",
+      "profile_name": "default",
+      "project_name": "melodycloudback",
+      "runtime": "python3.6",
+      "s3_bucket": "zappa-h3qoiie4l",
+      "slim_handler": false,
+      "memory_size": 3008,
+      "timeout_seconds": 60
   }
-
+}
