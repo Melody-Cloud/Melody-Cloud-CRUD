@@ -5,58 +5,50 @@ from faker import Faker
 fake = Faker()
 
 # Artists
-# https://data.whicdn.com/images/310209005/large.jpg
-peep = Artist(name='Lil Peep', artistDescription="Gustav Åhr (November 1, 1996 – November 15, 2017), better known by his stage name Lil Peep, was an American rapper and singer from Long Beach, Long Island, New York", artistImageUrl="https://data.whicdn.com/images/310209005/large.jpg")
+peep = Artist(name='We Are All Astronauts', artistDescription="Ether is an American producer from Nashville. Ether also produces and posts his songs to his Soundcloud.", artistImageUrl="https://instagram.fktw1-1.fna.fbcdn.net/vp/df0702bb3af8c1581864b98427644d8c/5C8E65A0/t51.2885-15/e35/s320x320/26186297_1144045615726747_3534440781014106112_n.jpg")
 peep.save()
 
 
-tha_kid = Artist(name='Th@ Kid', artistDescription="Elmo Kennedy O'Connor (born January 11th, 1994), better known as “Bones” (formerly known as “Th@ Kid”), is an underground rapper from Muir Beach, CA. He is one of the four members of the “Seshollowaterboyz” and has actively released music under several other aliases, such as: surrenderdorthy, OREGONTRAIL", artistImageUrl="https://kidfromthe6ix.files.wordpress.com/2014/12/b3zhyc5cmaavwim-large.png")
-tha_kid.save()
-
-# john_denver = Artist(name='John Denver', artistDescription="American singer-songwriter, record producer, actor, activist, and humanitarian, whose greatest commercial success was as a solo singer.")
-# john_denver.save()
-
-
 # Albums
-crybaby = Album(artistId=peep, albumName='Crybaby', albumDescription='Crybaby is a mixtape by LiL PEEP, released at the 10th of June, 2016. It features GOTHBOICLIQUE members WICCA PHASE SPRINGS ETERNAL, Cold Hart, and Lil Tracy.')
+crybaby = Album(artistId=peep, albumName='Purity', albumDescription='Purity is an album by Ether, released at the 10th of June, 2016. It features Jazpe members Lapse and Kaleido.')
 crybaby.save()
 # Songs
 songs = []
-crybaby_song = Song(artistId=peep, albumId=crybaby, name='Crybaby', musicSrc='https://s3-eu-west-1.amazonaws.com/melody-cloud-songs/Crybaby.mp3', waveformImgUrl='https://s3-eu-west-1.amazonaws.com/melody-cloud-waveforms/Crybaby.mp3.png', amountOfPlays=random.randint(10000, 100000), amountOfLikes=random.randint(1000, 10000), description='First song in the album', lyrics=lorem.text())
-songs.append(crybaby_song)
+helpless = Song(artistId=peep, albumId=crybaby, name='Helpless', musicSrc='https://s3-eu-west-1.amazonaws.com/melody-cloud-songs/Crybaby.mp3', waveformImgUrl='https://s3-eu-west-1.amazonaws.com/melody-cloud-waveforms/Crybaby.mp3.png', amountOfPlays=random.randint(10000, 100000), amountOfLikes=random.randint(1000, 10000), description='First song in the album', lyrics=lorem.text())
+songs.append(helpless)
 
-liljeep_song = Song(artistId=peep, albumId=crybaby, name='Lil Jeep', musicSrc='https://s3-eu-west-1.amazonaws.com/melody-cloud-songs/LilJeep.mp3', waveformImgUrl='https://s3-eu-west-1.amazonaws.com/melody-cloud-waveforms/LilJeep.mp3.png', amountOfPlays=random.randint(10000, 100000), amountOfLikes=random.randint(1000, 10000), description='Second song in the album', lyrics=lorem.text())
-songs.append(liljeep_song)
+needaname_song = Song(artistId=peep, albumId=crybaby, name='Need a Name', musicSrc='https://s3-eu-west-1.amazonaws.com/melody-cloud-songs/LilJeep.mp3', waveformImgUrl='https://s3-eu-west-1.amazonaws.com/melody-cloud-waveforms/LilJeep.mp3.png', amountOfPlays=random.randint(10000, 100000), amountOfLikes=random.randint(1000, 10000), description='Second song in the album', lyrics=lorem.text())
+songs.append(needaname_song)
 
-yesterday_song = Song(artistId=peep, albumId=crybaby, name='Yesterday', musicSrc='https://s3-eu-west-1.amazonaws.com/melody-cloud-songs/Yesterday.mp3', waveformImgUrl='https://s3-eu-west-1.amazonaws.com/melody-cloud-waveforms/Yesterday.mp3.png', amountOfPlays=random.randint(10000, 100000), amountOfLikes=random.randint(1000, 10000), description='Third song in the album', lyrics=lorem.text())
-songs.append(yesterday_song)
+awakening_song = Song(artistId=peep, albumId=crybaby, name='Awakening', musicSrc='https://s3-eu-west-1.amazonaws.com/melody-cloud-songs/Yesterday.mp3', waveformImgUrl='https://s3-eu-west-1.amazonaws.com/melody-cloud-waveforms/Yesterday.mp3.png', amountOfPlays=random.randint(10000, 100000), amountOfLikes=random.randint(1000, 10000), description='Third song in the album', lyrics=lorem.text())
+songs.append(awakening_song)
 
-aid_song = Song(artistId=peep, albumId=crybaby, name='Absolute In Doubt', musicSrc='https://s3-eu-west-1.amazonaws.com/melody-cloud-songs/AbsoluteInDoubt.mp3', waveformImgUrl='https://s3-eu-west-1.amazonaws.com/melody-cloud-waveforms/AbsoluteInDoubt.mp3.png', amountOfPlays=random.randint(10000, 100000), amountOfLikes=random.randint(1000, 10000), description='Fourth song in the album', lyrics=lorem.text())
-songs.append(aid_song)
+waves = Song(artistId=peep, albumId=crybaby, name='Waves', musicSrc='https://s3-eu-west-1.amazonaws.com/melody-cloud-songs/AbsoluteInDoubt.mp3', waveformImgUrl='https://s3-eu-west-1.amazonaws.com/melody-cloud-waveforms/AbsoluteInDoubt.mp3.png', amountOfPlays=random.randint(10000, 100000), amountOfLikes=random.randint(1000, 10000), description='Fourth song in the album', lyrics=lorem.text())
+songs.append(waves)
 
 for song in songs:
     song.save()
 
 # Tags
-rap_tag = Tag(songId=crybaby_song, songTag='Rap')
-sad_tag = Tag(songId=crybaby_song, songTag='Sad')
+rap_tag = Tag(songId=helpless, songTag='Ambient')
+sad_tag = Tag(songId=helpless, songTag='Sad')
 
 rap_tag.save()
 
-rap_tag = Tag(songId=liljeep_song, songTag='Rap')
+rap_tag = Tag(songId=needaname_song, songTag='Ambient')
 rap_tag.save()
-chill_tag = Tag(songId=liljeep_song, songTag='Chill')
+chill_tag = Tag(songId=needaname_song, songTag='Chill')
 chill_tag.save()
 
-tag = Tag(songId=yesterday_song, songTag='Rock')
+tag = Tag(songId=awakening_song, songTag='Rock')
 tag.save()
-tag = Tag(songId=yesterday_song, songTag='Dynamic')
+tag = Tag(songId=awakening_song, songTag='Dynamic')
 tag.save()
 
-rap_tag = Tag(songId=aid_song, songTag='Dynamic')
+rap_tag = Tag(songId=waves, songTag='Dynamic')
 rap_tag.save()
 
-sad_tag = Tag(songId=aid_song, songTag='Sad')
+sad_tag = Tag(songId=waves, songTag='Sad')
 sad_tag.save()
 
 # Comments

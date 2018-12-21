@@ -1,6 +1,6 @@
 {
   "dev": {
-      "app_function": "melo.rest_app",
+      "app_function": "main.rest_app",
       "aws_region": "eu-west-1",
       "profile_name": "default",
       "project_name": "melodycloudback",

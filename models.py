@@ -2,7 +2,7 @@ import datetime
 
 from peewee import TextField, DateTimeField, Model, CharField, ForeignKeyField, IntegerField
 
-from persistence import pgdb
+from persistence_configuration import pgdb
 
 
 class BaseModel(Model):
@@ -62,4 +62,3 @@ class Playlist(BaseModel):
 
 
 pgdb.create_tables([Song, Tag, Comment, Artist, Album, Playlist])
-# pgdb.create_tables([Tag])

@@ -10,7 +10,7 @@ def song_join_to_json(joined_object):
     song_json['artistId'] = joined_object.artistId.id
 
     song_json['album'] = song_json['albumId']
-    song_json['albumId'] = joined_object.albumId.id
+    song_json['albumId'] = joined_object.albumId.id if joined_object.albumId is not None else None
 
     comments = list(joined_object.comments)
     song_json['comments'] = [model_to_dict(comment) for comment in comments]

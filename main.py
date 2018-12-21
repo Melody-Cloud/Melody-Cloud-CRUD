@@ -6,19 +6,10 @@ import psycopg2
 
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
-from playhouse.shortcuts import model_to_dict
 
 from helpers import song_join_to_json
 from models import Song, Artist, Comment, Album, Playlist, Tag
-
-
-class NoAuth:
-    def authenticate(self, user, passwd):
-        return True
-
-    def authorize(self):
-        return True
-
+from no_auth import NoAuth
 
 user_auth = NoAuth()
 
@@ -36,7 +27,7 @@ api.setup()
 
 rest_app = api.app
 
-
+# configure limiter in order to prevent abuse
 limiter = Limiter(
     rest_app,
     key_func=get_remote_address,
@@ -45,7 +36,6 @@ limiter = Limiter(
 
 
 @rest_app.route('/')
-@limiter.limit("50/second")
 def index():
     return "Hello, world!", 200
 
